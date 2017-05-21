@@ -4,7 +4,8 @@
 import csv
 from Tkinter import Tk
 from tkFileDialog import askopenfilename
-from tkFileDialog import asksaveasfilename
+from tkFileDialog import askdirectory
+from decimal import *
 
 Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
 filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
@@ -28,12 +29,12 @@ with open (filename) as csvfile:
 
 # save outDict as a CSV file. I cannot use dictWriter because FreeAgent wants a specific order for columns.
 
-outFilename = asksaveasfilename()
-print (outFilename)
+directory = askdirectory(message = "Choose a directory")
+outFilename = directory + '/Transactions_from_LHV.csv'
 
 with open (outFilename, 'w') as outFile:
     for item in outList:
-        oneRow = str(item ['Date']) + ', ' + str(item ['Amount']) + ', ' + item ['Description']
+        oneRow = str(item ['Date']) + ', ' + str(Decimal(item ['Amount']).quantize(Decimal('.01'))) + ', ' + item ['Description']
         outFile.write(oneRow)
     
     
