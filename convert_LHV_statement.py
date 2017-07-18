@@ -18,11 +18,13 @@ with open (filename) as csvfile:
         outListItem = {} # each item in the list is a dict
         formattedDate = row['Date'][8:] + row['Date'][4:8] + row['Date'][:4]
         outListItem['Date'] = formattedDate
-        if row['Debit/Credit (D/C)'] == "C":
-            formattedAmount = round(float(row['Amount']), 2)
-        else:
-            formattedAmount = -1 * (round(float(row['Amount']), 2))
-        outListItem['Amount'] = formattedAmount
+        amount = str(row['Amount'])
+        outListItem['Amount'] = amount
+##        if row['Debit/Credit (D/C)'] == "C":
+##            formattedAmount = round(float(row['Amount']), 2)
+##        else:
+##            formattedAmount = -1 * (round(float(row['Amount']), 2))
+##        outListItem['Amount'] = formattedAmount
         formattedDescription = row['Description'] + ' Sender/receiver: ' + row['Sender/receiver name'] + ' ' + row['Sender/receiver account']
         outListItem['Description'] = formattedDescription
         outList.append(outListItem)
@@ -34,7 +36,8 @@ outFilename = directory + '/Transactions_from_LHV.csv'
 
 with open (outFilename, 'w') as outFile:
     for item in outList:
-        oneRow = str(item ['Date']) + ', ' + str(Decimal(item ['Amount']).quantize(Decimal('.01'))) + ', ' + item ['Description']
+##        oneRow = str(item ['Date']) + ', ' + str(Decimal(item ['Amount']).quantize(Decimal('.01'))) + ', ' + item ['Description'] + '\n'
+        oneRow = str(item ['Date']) + ', ' + item['Amount'] + ', ' + item ['Description'].replace(',', '') + '\n'
         outFile.write(oneRow)
     
     
