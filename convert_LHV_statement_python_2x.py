@@ -36,7 +36,7 @@ with open (filename) as csvfile:
 
 # save outDict as a CSV file. I cannot use dictWriter because FreeAgent wants a specific order for columns.
 
-directory = askdirectory(message = "Choose a directory")
+directory = askdirectory(title = "Choose a directory")
 outFilename = directory + '/Transactions_from_LHV.csv'
 
 with open (outFilename, 'w') as outFile:
