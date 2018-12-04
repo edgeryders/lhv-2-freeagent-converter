@@ -1,13 +1,18 @@
 ## Converts a LHV bank account statement CSV into a format that FreeAgent can process
 ## FreeAgent CSV format is described here: https://www.freeagent.com/support/kb/banking/file-format-for-bank-upload-csv/
 
+from sys import version_info
+if version_info.major == 2: # we are using Python 2.x
+    import tkinter as tk
+else: 
+    sys.exit ("Please refer to the version of the script for Python 3: https://github.com/edgeryders/lhv-2-freeagent-converter")
+
 import csv
-from Tkinter import Tk
 from tkFileDialog import askopenfilename
 from tkFileDialog import askdirectory
 from decimal import *
 
-Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
+tk.Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
 filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
 
 outList = [] # initialize the dictionary where to store the output
