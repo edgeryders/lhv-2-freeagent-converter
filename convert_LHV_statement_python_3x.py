@@ -15,7 +15,7 @@ from decimal import *
 
 def generate_report(currency, transactions):
     '''
-    (str) => list of dict
+    (str, list of dicts) => list of dict
     For each non-EUR currency present in the transactions statement, generate a separate 
     list of transaction. Later to be saved into a CSV file
     '''
@@ -31,14 +31,18 @@ def generate_report(currency, transactions):
     return outListCurrency
 
 
-tkinter.Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
+root = tkinter.Tk() # as per https://stackoverflow.com/questions/32217114/tkinter-askopenfilename-wont-close
+root.withdraw() # we don't want a full GUI, so keep the root window from appearing
 filename = askopenfilename() # show an "Open" dialog box and return the path to the selected file
 directory = askdirectory(title = "Choose a directory") # shows a "choose directory" dialog box
+root.update()
+
+print ('the directory is: ' + directory)
 
 outList = [] # initialize the list where to store the output
 currencies = [] # a list of non-EUR currencies encountered
 
-with open (filename, 'r', encoding='utf-8') as csvfile:
+with open (filename, 'r') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
         outListItem = {} # each item in the list is a dict
@@ -52,7 +56,7 @@ with open (filename, 'r', encoding='utf-8') as csvfile:
         outList.append(outListItem)
         curr = row['Currency']
         if curr not in currencies:
-            currencies.append(curr)
+            currencies.append(curr)  
         
 for currency in currencies:
     outFilename = directory + '/transactions_in_' + currency + '.csv'
