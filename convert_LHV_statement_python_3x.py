@@ -1,8 +1,7 @@
 ## Converts a LHV bank account statement CSV into a format that FreeAgent can process
 ## FreeAgent CSV format is described here: https://www.freeagent.com/support/kb/banking/file-format-for-bank-upload-csv/
 
-from sys import version_info
-from sys import exit
+import sys
 if version_info.major == 2:
     # We are using Python 2.x
     sys.exit ("Please refer to the version of the script for Python 2: https://github.com/edgeryders/lhv-2-freeagent-converter")
@@ -37,7 +36,7 @@ filename = askopenfilename() # show an "Open" dialog box and return the path to 
 directory = askdirectory(title = "Choose a directory") # shows a "choose directory" dialog box
 root.update()
 
-print ('the directory is: ' + directory)
+# print(sys.version)
 
 outList = [] # initialize the list where to store the output
 currencies = [] # a list of non-EUR currencies encountered
