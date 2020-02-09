@@ -2,7 +2,7 @@
 ## FreeAgent CSV format is described here: https://www.freeagent.com/support/kb/banking/file-format-for-bank-upload-csv/
 
 import sys
-if version_info.major == 2:
+if sys.version_info.major == 2:
     # We are using Python 2.x
     sys.exit ("Please refer to the version of the script for Python 2: https://github.com/edgeryders/lhv-2-freeagent-converter")
 # We are using Python 3.
@@ -41,7 +41,8 @@ root.update()
 outList = [] # initialize the list where to store the output
 currencies = [] # a list of non-EUR currencies encountered
 
-with open (filename, 'r') as csvfile:
+with open (filename, 'r', encoding="utf-8-sig") as csvfile: # encoding is necessary to avoid Unicode error in python 3
+    # see: https://stackoverflow.com/questions/5004687/python-csv-dictreader-with-utf-8-data
     reader = csv.DictReader(csvfile)
     for row in reader:
         outListItem = {} # each item in the list is a dict
@@ -60,7 +61,7 @@ with open (filename, 'r') as csvfile:
 for currency in currencies:
     outFilename = directory + '/transactions_in_' + currency + '.csv'
     rows_to_file = generate_report(currency, outList)
-    with open (outFilename, 'w', encoding='utf-8') as outFile:
+    with open (outFilename, 'w', encoding='UTF-8') as outFile:
         for item in rows_to_file:
             oneRow = str(item ['Date']) + ', ' + item['Amount'] + ', ' + item ['Description'].replace(',', '') + '\n'
             outFile.write(oneRow)

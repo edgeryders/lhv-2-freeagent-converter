@@ -1,6 +1,3 @@
-## Converts a LHV bank account statement CSV into a format that FreeAgent can process
-## FreeAgent CSV format is described here: https://www.freeagent.com/support/kb/banking/file-format-for-bank-upload-csv/
-
 from sys import version_info
 if version_info.major == 2: # we are using Python 2.x
     import tkinter as tk
@@ -25,7 +22,7 @@ def generate_report(currency, transactions):
         if row['Currency'] == currency:
             outListItem['Date'] = row['Date']
             outListItem['Amount'] = row['Amount']
-            outListItem['Description'] = row['Description']
+            outListItem['Description'] = row['Description'].replace('\"', '\'') # FreeAgent does not like quote signs
             outListCurrency.append(outListItem)
     return outListCurrency
  
@@ -61,8 +58,4 @@ for currency in currencies:
             oneRow = str(item ['Date']) + ', ' + item['Amount'] + ', ' + item ['Description'].replace(',', '') + '\n'
             outFile.write(oneRow)
             
-    
-
-        
-
-
+ 
